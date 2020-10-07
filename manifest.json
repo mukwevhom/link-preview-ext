@@ -11,6 +11,8 @@
     "content_scripts": [
         {
             "matches": [
+                "https://*.dotmodus.com/*",
+                "https://*.google.com/*",
                 "https://*.mukwevhom.xyz/*"
             ],
             "js": ["jquery-3.4.1.min.js","content.js"],

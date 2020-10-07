@@ -13,6 +13,13 @@ let anchors = document.querySelectorAll("a");
 anchors.forEach((anchor) => {
     anchor.addEventListener("mouseover", async ( event ) => {
         var theTarget = event.currentTarget;
+        
+        /* document.querySelectorAll("a.link-previewed").forEach(e => {
+            let link_preview_wrapper = e.getElementsByClassName("lp-link-info-wrapper");
+
+            e.removeChild(link_preview_wrapper[0]);
+            e.classList.remove("link-previewed");
+        }); */
 
         if(!theTarget.classList.contains("link-previewed") && !/(^mailto:|^tel:)/.test(theTarget.href)) {
             let link_preview_wrapper = document.createElement("div");
@@ -29,16 +36,16 @@ anchors.forEach((anchor) => {
                     <div class="lp-link-url">
                         <p class="lp-link-url-text" id="lp-link-url-text">${link_preview_data.url}</p>
                         <div class="lp-link-actions">
-                            <a href="${link_preview_data.url}" target="_h" title="visit - ${link_preview_data.url}" >
+                            <span id="lp-visit-link" data-href="${link_preview_data.url}" target="_h" title="visit - ${link_preview_data.url}" >
                                 <figure>
                                     <img src="https://raw.githubusercontent.com/feathericons/feather/master/icons/external-link.svg" alt="visit - ${link_preview_data.url}"/>
                                 </figure>
-                            </a>
-                            <a id="lp-copy-link" title="copy - ${link_preview_data.url}">
+                            </span>
+                            <span id="lp-copy-link" title="copy - ${link_preview_data.url}">
                                 <figure>
                                     <img src="https://raw.githubusercontent.com/feathericons/feather/master/icons/copy.svg" alt="copy - ${link_preview_data.url}"/>
                                 </figure>
-                            </a>
+                            </span>
                         </div>
                     </div>
                     <p class="lp-link-description">${link_preview_data.description}</p>
@@ -46,6 +53,15 @@ anchors.forEach((anchor) => {
 
             theTarget.appendChild(link_preview_wrapper);
             theTarget.classList.add("link-previewed");
+
+            document.getElementById("lp-copy-link").onclick = (e) => {
+                let currentLink = e.currentTarget;
+                let href = e.currentTarget.dataset.href;
+
+                window.open(href, '_blank');
+
+
+            }
 
             document.getElementById("lp-copy-link").onclick = (e) => {
                 let lpLinkUrl = document.getElementById("lp-link-url-text");
@@ -67,7 +83,7 @@ anchors.forEach((anchor) => {
     
     }, false);
 
-    anchor.addEventListener("mouseout", ( event ) => {
+    /* anchor.addEventListener("mouseout", ( event ) => {
         var theTarget = event.currentTarget;
     
         if(theTarget.classList.contains("link-previewed")) {
@@ -77,6 +93,6 @@ anchors.forEach((anchor) => {
             theTarget.classList.remove("link-previewed");
         }
     
-    }, false);
+    }, false); */
 });
 

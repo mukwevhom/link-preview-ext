@@ -39,6 +39,7 @@
 h4.lp-link-title {
     margin: 0 0 12px;
     font-size: 15px!important;
+    text-transform: lowercase;
 }
 
 .lp-link-url {
@@ -56,20 +57,19 @@ h4.lp-link-title {
     flex: auto;
     overflow: auto;
     font-size: 15px!important;
+    max-width: 234px;
+    text-transform: lowercase;
 }
 
 .lp-link-actions {
     display: flex;
     flex: 1;
+    gap: 9px;
 }
 
-.lp-link-actions > a {
+.lp-link-actions > span {
     pointer-events: all;
     cursor: pointer;
-}
-
-.lp-link-actions > a:not(:first-of-type) {
-    margin-left: 8px;
 }
 
 .lp-link-actions figure img{
@@ -80,6 +80,7 @@ p.lp-link-description {
     font-size: 15px!important;
     margin-bottom: 0;
     color: rgba(0, 0, 0, .7);
+    text-transform: lowercase;
 }
 
 a#free {
