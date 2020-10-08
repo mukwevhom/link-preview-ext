@@ -3,6 +3,7 @@
 .link-previewed {
     position: relative;
     z-index: 999999999999999;
+    pointer-events: none !important;
 }
 
 .lp-link-info-wrapper {
@@ -24,6 +25,15 @@
     pointer-events: none;
 }
 
+#lp-close {
+    position: absolute;
+    right: 0;
+    background-color: white;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+#lp-close figure,
 .lp-link-info-wrapper figure {
     margin: 0;
 }
@@ -59,6 +69,7 @@ h4.lp-link-title {
     font-size: 15px!important;
     max-width: 234px;
     text-transform: lowercase;
+    overflow: hidden;
 }
 
 .lp-link-actions {
@@ -74,6 +85,7 @@ h4.lp-link-title {
 
 .lp-link-actions figure img{
     width: 16px;
+    vertical-align: baseline;
 }
 
 p.lp-link-description {

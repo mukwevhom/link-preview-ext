@@ -11,15 +11,20 @@ chrome.runtime.onMessage.addListener(
 let anchors = document.querySelectorAll("a");
 
 anchors.forEach((anchor) => {
+    if(anchor.hostname === window.location.hostname)
+        return;
+
     anchor.addEventListener("mouseover", async ( event ) => {
         var theTarget = event.currentTarget;
-        
-        /* document.querySelectorAll("a.link-previewed").forEach(e => {
-            let link_preview_wrapper = e.getElementsByClassName("lp-link-info-wrapper");
 
-            e.removeChild(link_preview_wrapper[0]);
-            e.classList.remove("link-previewed");
-        }); */
+        if(theTarget.classList.contains('link-previewed'))
+            return;
+        
+        document.querySelectorAll(".lp-link-info-wrapper").forEach(e => {
+            e.parentElement.classList.remove("link-previewed");
+
+            e.remove();
+        });
 
         if(!theTarget.classList.contains("link-previewed") && !/(^mailto:|^tel:)/.test(theTarget.href)) {
             let link_preview_wrapper = document.createElement("div");
@@ -30,6 +35,11 @@ anchors.forEach((anchor) => {
             
             link_preview_wrapper.setAttribute("class", "lp-link-info-wrapper");
             link_preview_wrapper.innerHTML = `
+                <div id="lp-close">
+                    <figure>
+                        <img src="https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg" alt="Close Link Preview"/>
+                    </figure>
+                </div>
                 <figure class="lp-link-info-header"><img src="${link_preview_data.screenshot.url}" alt="${link_preview_data.title}"></figure>
                 <div class="lp-link-info">
                     <h4 class="lp-link-title">${link_preview_data.title}</h4>
@@ -54,14 +64,19 @@ anchors.forEach((anchor) => {
             theTarget.appendChild(link_preview_wrapper);
             theTarget.classList.add("link-previewed");
 
-            document.getElementById("lp-copy-link").onclick = (e) => {
+            document.getElementById("lp-close").onclick = (e) => {
+                let lpWrapper = e.currentTarget.parentElement;
+
+                lpWrapper.parentElement.classList.remove("link-previewed");
+                lpWrapper.remove();
+            };
+
+            document.getElementById("lp-visit-link").onclick = (e) => {
                 let currentLink = e.currentTarget;
-                let href = e.currentTarget.dataset.href;
+                let href = currentLink.dataset.href;
 
                 window.open(href, '_blank');
-
-
-            }
+            };
 
             document.getElementById("lp-copy-link").onclick = (e) => {
                 let lpLinkUrl = document.getElementById("lp-link-url-text");
@@ -79,20 +94,12 @@ anchors.forEach((anchor) => {
 
                 return false;
             };
+
+            theTarget.onclick = (e) => {
+                e.preventDefault()
+            }
         }
     
     }, false);
-
-    /* anchor.addEventListener("mouseout", ( event ) => {
-        var theTarget = event.currentTarget;
-    
-        if(theTarget.classList.contains("link-previewed")) {
-            let link_preview_wrapper = document.getElementsByClassName("lp-link-info-wrapper");
-
-            theTarget.removeChild(link_preview_wrapper[0]);
-            theTarget.classList.remove("link-previewed");
-        }
-    
-    }, false); */
 });
 
